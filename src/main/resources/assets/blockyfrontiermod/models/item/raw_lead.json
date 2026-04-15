@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "frontiermod:item/raw_lead"
+    "layer0": "blockyfrontiermod:item/raw_lead"
   }
 }

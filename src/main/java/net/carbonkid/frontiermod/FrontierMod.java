@@ -1,5 +1,9 @@
 package net.carbonkid.frontiermod;
 
+import net.carbonkid.frontiermod.block.ModBlocks;
+import net.carbonkid.frontiermod.item.ModCreativeModeTabs;
+import net.carbonkid.frontiermod.item.ModItems;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
@@ -20,9 +24,8 @@ import net.neoforged.neoforge.event.server.ServerStartingEvent;
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(FrontierMod.MOD_ID)
 public class FrontierMod {
-
     public static final String MOD_ID = "blockyfrontiermod";
-    static final Logger LOGGER = LogUtils.getLogger();
+    private static final Logger LOGGER = LogUtils.getLogger();
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
@@ -34,6 +37,10 @@ public class FrontierMod {
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
+
+        ModItems.register(modEventBus);
+        ModBlocks.register(modEventBus);
+        ModCreativeModeTabs.register(modEventBus);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
@@ -47,6 +54,15 @@ public class FrontierMod {
 
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
+        if(event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
+            event.accept(ModItems.RAW_LEAD);
+            event.accept(ModItems.LEAD_INGOT);
+        }
+        if(event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
+            event.accept(ModBlocks.LEAD_BLOCK);
+            event.accept(ModBlocks.RAW_LEAD_BLOCK);
+        }
+
 
     }
 
